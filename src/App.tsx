@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
+import { LocationSelector } from './components/LocationSelector';
 import { Hero } from './components/Hero';
+import { CategoryCardsSection } from './components/CategoryCardsSection';
 import { ServiceHighlights } from './components/ServiceHighlights';
 import { WhyChooseUs } from './components/WhyChooseUs';
 import { ServicesMenu } from './components/ServicesMenu';
@@ -11,6 +13,7 @@ import { FAQSection } from './components/FAQSection';
 import { ContactSection } from './components/ContactSection';
 import { AppointmentBookingSection } from './components/AppointmentBookingSection';
 import { BookingCartDrawer } from './components/BookingCartDrawer';
+import { ReferAFriendModal } from './components/ReferAFriendModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { BackToTop } from './components/BackToTop';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
@@ -30,6 +33,7 @@ export default function App() {
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isReferralOpen, setIsReferralOpen] = useState(false);
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('All');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -99,12 +103,21 @@ export default function App() {
     setCart([]);
   };
 
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategoryFilter(categoryId);
+    if (categoryId === 'PackageBuilder') {
+      document.getElementById('package-builder')?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#050505] text-gray-100 font-sans-clean selection:bg-[#D4AF37]/30 selection:text-[#D4AF37] relative">
+    <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-[#D4AF37]/30 selection:text-[#000000] relative">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-20 right-4 z-50 glass-card rounded-xl px-4 py-3 border border-white/10 text-[#D4AF37] text-xs uppercase tracking-wider font-bold flex items-center gap-2 shadow-2xl animate-in slide-in-from-right-5 duration-200">
+        <div className="fixed top-20 right-4 z-50 bg-black text-white rounded-xl px-4 py-3 border border-[#D4AF37]/50 text-xs uppercase tracking-wider font-bold flex items-center gap-2 shadow-2xl animate-in slide-in-from-right-5 duration-200">
           <Check className="w-4 h-4 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>
@@ -117,13 +130,20 @@ export default function App() {
       <Navbar
         cart={cart}
         onOpenCart={() => setIsCartOpen(true)}
+        onOpenReferral={() => setIsReferralOpen(true)}
         activeSection="home"
       />
+
+      {/* Location Bar Widget */}
+      <LocationSelector />
 
       {/* Main Content Sections */}
       <main>
         {/* Hero Banner */}
         <Hero />
+
+        {/* Categories Visual Cards Section */}
+        <CategoryCardsSection onSelectCategory={handleCategorySelect} />
 
         {/* Dedicated Appointment Booking Experience */}
         <AppointmentBookingSection
@@ -168,7 +188,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer onOpenReferral={() => setIsReferralOpen(true)} />
 
       {/* Appointment Cart Drawer */}
       <BookingCartDrawer
@@ -178,6 +198,17 @@ export default function App() {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
         onClearCart={handleClearCart}
+        onOpenReferral={() => setIsReferralOpen(true)}
+      />
+
+      {/* Refer-a-Friend Modal */}
+      <ReferAFriendModal
+        isOpen={isReferralOpen}
+        onClose={() => setIsReferralOpen(false)}
+        onApplyCouponCode={(code) => {
+          showToast(`Coupon code "${code}" ready for checkout!`);
+          setIsCartOpen(true);
+        }}
       />
 
       {/* Floating Action Buttons */}
@@ -187,3 +218,4 @@ export default function App() {
     </div>
   );
 }
+

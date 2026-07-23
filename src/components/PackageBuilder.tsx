@@ -46,22 +46,22 @@ export const PackageBuilder: React.FC<PackageBuilderProps> = ({ onAddMultipleToC
     const serviceListText = selectedServices.map((s) => `• ${s.name} (₹${s.price})`).join('%0A');
     const waText = `Hello%20Swan%20Beauty%2C%20I%20built%20a%20custom%20home%20salon%20package%20on%20your%20website%3A%0A%0A${serviceListText}%0A%0AOriginal%20Total%3A%20%E2%82%B9${rawTotal}%0ACombo%20Discount%20(${discountPercentage}\%20OFF)%3A%20-%E2%82%B9${discountAmount}%0AFinal%20Estimated%20Total%3A%20%E2%82%B9${finalComboTotal}%0A%0APlease%20confirm%20my%20Gwalior%20home%20appointment.`;
 
-    window.open(`https://wa.me/919179586845?text=${waText}`, '_blank');
+    window.open(`https://wa.me/918349729518?text=${waText}`, '_blank');
   };
 
   return (
-    <section className="py-20 bg-[#050505] relative border-t border-white/10">
+    <section className="py-20 bg-gradient-to-b from-sky-50/60 via-white to-sky-100/50 relative border-t border-sky-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/40 text-[#D4AF37] text-[10px] font-bold uppercase tracking-[0.3em]">
+          <span className="inline-block px-3.5 py-1 rounded-full bg-sky-100 border border-sky-300 text-[#0284C7] text-[10px] font-extrabold uppercase tracking-[0.3em]">
             Interactive Calculator
           </span>
-          <h2 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-white uppercase tracking-wider">
-            Build Your Own <span className="text-gold-gradient italic font-serif-accent">Custom Package</span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-[#1E3A5F] uppercase tracking-wider">
+            Build Your Own <span className="text-[#0284C7] italic font-normal">Custom Package</span>
           </h2>
-          <p className="text-gray-400 text-xs sm:text-sm font-light">
-            Select 3 or more services to unlock <span className="text-[#D4AF37] font-bold">10% to 15% instant combo discounts</span>!
+          <p className="text-slate-600 text-xs sm:text-sm font-normal">
+            Select 3 or more services to unlock <span className="text-[#0284C7] font-extrabold">10% to 15% instant combo discounts</span>!
           </p>
         </div>
 
@@ -70,12 +70,12 @@ export const PackageBuilder: React.FC<PackageBuilderProps> = ({ onAddMultipleToC
           {/* Service Selector Grid */}
           <div className="lg:col-span-8 space-y-4">
             <div className="flex items-center justify-between pb-2">
-              <h3 className="text-xs font-bold text-gray-200 uppercase tracking-widest flex items-center gap-2">
-                <Calculator className="w-4 h-4 text-[#D4AF37]" /> Choose Services
+              <h3 className="text-xs font-extrabold text-[#1E3A5F] uppercase tracking-widest flex items-center gap-2">
+                <Calculator className="w-4 h-4 text-[#0284C7]" /> Choose Services
               </h3>
               <button
                 onClick={() => setSelectedServiceIds([])}
-                className="text-xs text-[#D4AF37] hover:underline flex items-center gap-1 uppercase tracking-wider"
+                className="text-xs text-[#0284C7] font-bold hover:underline flex items-center gap-1 uppercase tracking-wider"
               >
                 <RefreshCw className="w-3 h-3" /> Clear Selections
               </button>
@@ -90,20 +90,20 @@ export const PackageBuilder: React.FC<PackageBuilderProps> = ({ onAddMultipleToC
                     onClick={() => toggleService(service.id)}
                     className={`p-3.5 rounded-2xl border cursor-pointer transition-all flex items-center justify-between gap-3 ${
                       isSelected
-                        ? 'bg-[#D4AF37]/15 border-[#D4AF37]'
-                        : 'bg-[#0a0a0a] border-white/10 hover:border-white/20'
+                        ? 'bg-sky-100/80 border-[#0284C7] shadow-sm'
+                        : 'bg-white border-sky-200 hover:border-[#0284C7]/50'
                     }`}
                   >
                     <div className="space-y-0.5">
-                      <p className="text-xs font-bold text-white uppercase tracking-wider">{service.name}</p>
-                      <p className="text-[11px] text-[#D4AF37] font-semibold">₹{service.price}</p>
+                      <p className="text-xs font-extrabold text-[#1E3A5F] uppercase tracking-wider">{service.name}</p>
+                      <p className="text-[11px] text-[#0284C7] font-extrabold">₹{service.price}</p>
                     </div>
 
                     <div
                       className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-all ${
                         isSelected
-                          ? 'bg-[#D4AF37] text-black font-bold'
-                          : 'border border-white/20 text-transparent'
+                          ? 'bg-[#0284C7] text-white font-bold'
+                          : 'border border-sky-200 text-transparent'
                       }`}
                     >
                       <Check className="w-4 h-4 stroke-[3]" />
@@ -115,12 +115,12 @@ export const PackageBuilder: React.FC<PackageBuilderProps> = ({ onAddMultipleToC
           </div>
 
           {/* Price Calculation Summary Box */}
-          <div className="lg:col-span-4 glass-card rounded-2xl p-6 border border-white/10 space-y-6 sticky top-28">
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
-              <h3 className="font-serif-luxury text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-[#D4AF37]" /> Package Summary
+          <div className="lg:col-span-4 bg-white rounded-2xl p-6 border border-sky-200 shadow-xl space-y-6 sticky top-28">
+            <div className="flex items-center justify-between pb-4 border-b border-sky-100">
+              <h3 className="font-serif text-xl font-extrabold text-[#1E3A5F] uppercase tracking-wider flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-[#0284C7]" /> Package Summary
               </h3>
-              <span className="text-xs font-bold bg-[#D4AF37]/20 text-[#D4AF37] px-2.5 py-1 rounded-full border border-[#D4AF37]/40 uppercase tracking-widest">
+              <span className="text-xs font-extrabold bg-sky-100 text-[#0284C7] px-2.5 py-1 rounded-full border border-sky-300 uppercase tracking-widest">
                 {selectedServices.length} Selected
               </span>
             </div>
@@ -128,28 +128,28 @@ export const PackageBuilder: React.FC<PackageBuilderProps> = ({ onAddMultipleToC
             {/* Itemized List */}
             <div className="space-y-2.5 max-h-40 overflow-y-auto pr-1">
               {selectedServices.length === 0 ? (
-                <p className="text-xs text-gray-500 italic text-center py-4">
+                <p className="text-xs text-slate-400 italic text-center py-4">
                   No services selected. Click on services on the left to add them!
                 </p>
               ) : (
                 selectedServices.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between text-xs text-gray-300">
-                    <span className="truncate max-w-[200px]">{item.name}</span>
-                    <span className="font-semibold text-white shrink-0">₹{item.price}</span>
+                  <div key={item.id} className="flex items-center justify-between text-xs text-slate-700">
+                    <span className="truncate max-w-[200px]">• {item.name}</span>
+                    <span className="font-bold text-[#1E3A5F] shrink-0">₹{item.price}</span>
                   </div>
                 ))
               )}
             </div>
 
             {/* Discount Meter */}
-            <div className="p-3.5 rounded-xl bg-[#0a0a0a] border border-white/10 space-y-1">
-              <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
-                <span className="text-[#D4AF37]">Combo Discount</span>
-                <span className="text-[#D4AF37]">
+            <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-200 space-y-1">
+              <div className="flex justify-between text-xs font-extrabold uppercase tracking-wider">
+                <span className="text-[#0284C7]">Combo Discount</span>
+                <span className="text-[#0284C7]">
                   {discountPercentage > 0 ? `${discountPercentage}% OFF` : 'Select 3+ Services'}
                 </span>
               </div>
-              <p className="text-[11px] text-gray-400">
+              <p className="text-[11px] text-slate-600">
                 {selectedServices.length < 3
                   ? `Add ${3 - selectedServices.length} more service(s) to get 10% OFF!`
                   : selectedServices.length < 5
@@ -159,20 +159,20 @@ export const PackageBuilder: React.FC<PackageBuilderProps> = ({ onAddMultipleToC
             </div>
 
             {/* Totals */}
-            <div className="space-y-2 pt-2 border-t border-white/10">
-              <div className="flex justify-between text-xs text-gray-400 uppercase tracking-wider">
+            <div className="space-y-2 pt-2 border-t border-sky-100">
+              <div className="flex justify-between text-xs text-slate-500 font-bold uppercase tracking-wider">
                 <span>Subtotal</span>
                 <span>₹{rawTotal}</span>
               </div>
               {discountAmount > 0 && (
-                <div className="flex justify-between text-xs text-emerald-400 font-semibold uppercase tracking-wider">
+                <div className="flex justify-between text-xs text-emerald-600 font-extrabold uppercase tracking-wider">
                   <span>Combo Discount ({discountPercentage}%)</span>
                   <span>-₹{discountAmount}</span>
                 </div>
               )}
-              <div className="flex justify-between text-base font-bold text-white pt-2 border-t border-white/10">
+              <div className="flex justify-between text-base font-extrabold text-[#1E3A5F] pt-2 border-t border-sky-100">
                 <span className="uppercase tracking-wider">Final Estimated Price</span>
-                <span className="text-gold-gradient text-xl font-serif-luxury">
+                <span className="text-[#0284C7] text-xl font-serif">
                   ₹{finalComboTotal}
                 </span>
               </div>
@@ -183,9 +183,9 @@ export const PackageBuilder: React.FC<PackageBuilderProps> = ({ onAddMultipleToC
               <button
                 onClick={handleBookPackage}
                 disabled={selectedServices.length === 0}
-                className="w-full py-3.5 bg-[#D4AF37] text-black font-extrabold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 hover:bg-white transition-all"
+                className="w-full py-3.5 bg-[#0284C7] text-white font-extrabold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 hover:bg-[#0369A1] transition-all rounded-xl"
               >
-                <MessageCircle className="w-4 h-4 fill-black" />
+                <MessageCircle className="w-4 h-4 fill-current text-sky-200" />
                 <span>Book Package via WhatsApp</span>
               </button>
 
@@ -196,9 +196,9 @@ export const PackageBuilder: React.FC<PackageBuilderProps> = ({ onAddMultipleToC
                   btn?.click();
                 }}
                 disabled={selectedServices.length === 0}
-                className="w-full py-2.5 bg-white/5 border border-white/20 text-white font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:border-[#D4AF37] hover:text-[#D4AF37] disabled:opacity-50"
+                className="w-full py-2.5 bg-sky-50 border border-sky-200 text-[#1E3A5F] font-extrabold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:border-[#0284C7] hover:text-[#0284C7] disabled:opacity-50 rounded-xl"
               >
-                <ShoppingBag className="w-3.5 h-3.5 text-[#D4AF37]" />
+                <ShoppingBag className="w-3.5 h-3.5 text-[#0284C7]" />
                 <span>Add All To Cart</span>
               </button>
             </div>
