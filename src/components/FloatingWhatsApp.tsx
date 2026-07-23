@@ -3,6 +3,7 @@ import { MessageCircle } from 'lucide-react';
 
 export const FloatingWhatsApp: React.FC = () => {
   const [isBouncing, setIsBouncing] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     // Trigger periodic bounce every 10 seconds to increase engagement
@@ -17,9 +18,34 @@ export const FloatingWhatsApp: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Hide when scrolling down past threshold (100px), show when scrolling up or near top
+      if (currentScrollY > 100 && currentScrollY > lastScrollY + 5) {
+        setIsVisible(false);
+      } else if (currentScrollY < lastScrollY - 5 || currentScrollY <= 100) {
+        setIsVisible(true);
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex items-center gap-2 group animate-in slide-in-from-bottom-10 fade-in duration-700 ease-out">
-      
+    <div
+      className={`fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2 group transition-all duration-500 ease-in-out ${
+        isVisible
+          ? 'opacity-100 translate-y-0 pointer-events-auto scale-100'
+          : 'opacity-0 translate-y-10 pointer-events-none scale-95'
+      }`}
+    >
       {/* Tooltip Hover Label */}
       <div className="hidden sm:block px-3 py-1.5 rounded-xl bg-[#1E3A5F] text-white text-xs font-bold uppercase tracking-wider shadow-2xl backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         Chat With Gwalior Home Salon Specialist

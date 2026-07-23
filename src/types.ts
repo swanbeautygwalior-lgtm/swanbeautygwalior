@@ -49,7 +49,7 @@ export interface BookingFormData {
   phone: string;
   locality: string;
   address: string;
-  preferredDate: string;
+  preferredDate?: string;
   preferredTime: string;
   notes: string;
 }

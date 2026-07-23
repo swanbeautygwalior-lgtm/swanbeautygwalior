@@ -106,63 +106,59 @@ export const CategoryCardsSection: React.FC<CategoryCardsSectionProps> = ({
   };
 
   return (
-    <section className="py-16 sm:py-20 bg-white relative">
+    <section className="py-8 sm:py-10 bg-white relative">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Minimal Luxury Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-6 border-b border-sky-100">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-300 text-[#0284C7] text-[10px] font-extrabold uppercase tracking-[0.25em]">
-              <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 mb-6 pb-4 border-b border-sky-100">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-sky-100 border border-sky-300 text-[#0284C7] text-[10px] font-extrabold uppercase tracking-[0.2em]">
+              <Sparkles className="w-3 h-3 text-[#0284C7]" />
               <span>Explore Categories</span>
             </div>
             
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1E3A5F] tracking-tight">
+            <h2 className="font-serif text-2xl sm:text-3xl font-extrabold text-[#1E3A5F] tracking-tight">
               Salon Services <span className="italic font-normal text-[#0284C7]">at Doorstep</span>
             </h2>
-            
-            <p className="text-slate-500 text-xs sm:text-sm font-normal max-w-xl">
-              Certified female beauticians with sealed single-use kits delivered safely to your home in Gwalior.
-            </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+          <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-500">
             <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping" />
             <span className="text-[#1E3A5F]">100% Hygienic & Sealed Mono-Dose Packs</span>
           </div>
         </div>
 
         {/* Categories Grid (2 cols mobile, 3 cols desktop) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
           {CATEGORIES.map((cat) => {
             return (
               <a
                 key={cat.id}
                 href={cat.href}
                 onClick={(e) => handleCardClick(cat, e)}
-                className={`group relative rounded-[22px] bg-white border border-sky-100 overflow-hidden shadow-[0_10px_30px_rgba(2,132,199,0.06)] hover:shadow-[0_20px_40px_rgba(2,132,199,0.18)] hover:border-[#0284C7]/50 transition-all duration-500 flex flex-col justify-between ${
-                  cat.isComingSoon ? 'opacity-90 cursor-not-allowed' : 'cursor-pointer hover:-translate-y-1.5'
+                className={`group relative rounded-2xl bg-white border border-sky-100 overflow-hidden shadow-sm hover:shadow-md hover:border-[#0284C7]/50 transition-all duration-300 flex flex-col justify-between ${
+                  cat.isComingSoon ? 'opacity-90 cursor-not-allowed' : 'cursor-pointer hover:-translate-y-1'
                 }`}
               >
-                {/* Image Container with Luxury Aspect Ratio */}
-                <div className="relative h-52 sm:h-56 w-full overflow-hidden bg-sky-50">
+                {/* Image Container */}
+                <div className="relative h-36 sm:h-40 w-full overflow-hidden bg-sky-50">
                   <img
                     src={cat.image}
                     alt={cat.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     referrerPolicy="no-referrer"
                     loading="lazy"
                   />
 
                   {/* Soft Light Overlay for contrast */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1E3A5F]/80 via-[#1E3A5F]/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1E3A5F]/85 via-[#1E3A5F]/20 to-transparent" />
 
                   {/* Badge Label */}
                   {cat.badge && (
-                    <div className="absolute top-4 left-4 z-10">
+                    <div className="absolute top-2.5 left-2.5 z-10">
                       <span
-                        className={`text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-md flex items-center gap-1 ${
+                        className={`text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1 ${
                           cat.badgeType === 'trending'
                             ? 'bg-rose-500 text-white'
                             : cat.badgeType === 'coming-soon'
@@ -172,43 +168,43 @@ export const CategoryCardsSection: React.FC<CategoryCardsSectionProps> = ({
                             : 'bg-white/90 backdrop-blur-md text-[#1E3A5F] border border-sky-200'
                         }`}
                       >
-                        {cat.badgeType === 'trending' && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                        {cat.badgeType === 'trending' && <span className="w-1 h-1 rounded-full bg-white animate-pulse" />}
                         {cat.badge}
                       </span>
                     </div>
                   )}
 
                   {/* Title overlay inside photo */}
-                  <div className="absolute bottom-4 left-4 right-4 z-10 text-white">
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-extrabold text-sky-200">
+                  <div className="absolute bottom-2.5 left-2.5 right-2.5 z-10 text-white">
+                    <span className="text-[9px] uppercase tracking-[0.15em] font-extrabold text-sky-200 block truncate">
                       {cat.subtitle}
                     </span>
-                    <h3 className="font-serif text-2xl font-extrabold text-white group-hover:text-sky-200 transition-colors">
+                    <h3 className="font-serif text-base sm:text-lg font-extrabold text-white group-hover:text-sky-200 transition-colors truncate">
                       {cat.title}
                     </h3>
                   </div>
                 </div>
 
                 {/* Card Content Footer */}
-                <div className="p-5 space-y-3 bg-white flex-1 flex flex-col justify-between">
-                  <p className="text-xs text-slate-600 font-normal leading-relaxed line-clamp-2">
+                <div className="p-3 bg-white flex-1 flex flex-col justify-between space-y-2">
+                  <p className="text-[11px] text-slate-500 font-normal leading-snug line-clamp-2">
                     {cat.description}
                   </p>
 
-                  <div className="pt-3 border-t border-sky-100 flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#1E3A5F] group-hover:text-[#0284C7] transition-colors flex items-center gap-1.5">
+                  <div className="pt-2 border-t border-sky-100 flex items-center justify-between">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#1E3A5F] group-hover:text-[#0284C7] transition-colors flex items-center gap-1">
                       {cat.isComingSoon ? (
-                        <span className="text-slate-400">Notifying Soon</span>
+                        <span className="text-slate-400">Soon</span>
                       ) : (
                         <>
-                          <span>Browse Services</span>
-                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                          <span>Browse</span>
+                          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform text-[#0284C7]" />
                         </>
                       )}
                     </span>
 
-                    <div className="w-8 h-8 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-[#0284C7] group-hover:bg-[#0284C7] group-hover:text-white group-hover:border-[#0284C7] transition-colors">
-                      <ArrowRight className="w-4 h-4" />
+                    <div className="w-6 h-6 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-[#0284C7] group-hover:bg-[#0284C7] group-hover:text-white group-hover:border-[#0284C7] transition-colors">
+                      <ArrowRight className="w-3 h-3" />
                     </div>
                   </div>
                 </div>

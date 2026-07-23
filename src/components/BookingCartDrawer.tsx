@@ -27,6 +27,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { CartItem, BookingFormData } from '../types';
+import { AddressLocationPickerModal, AddressDetails } from './AddressLocationPickerModal';
 
 interface BookingCartDrawerProps {
   isOpen: boolean;
@@ -102,6 +103,24 @@ export const BookingCartDrawer: React.FC<BookingCartDrawerProps> = ({
   // Payment method selection
   const [paymentMethod, setPaymentMethod] = useState<'cash_on_visit' | 'upi_online'>('cash_on_visit');
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+  const [isGpsModalOpen, setIsGpsModalOpen] = useState(false);
+
+  const currentLocalityInfo = LOCALITY_DATA[formData.locality] || LOCALITY_DATA['City Centre, Gwalior'];
+
+  const handleSaveGpsAddress = (addressDetails: AddressDetails) => {
+    const fullAddr = `${addressDetails.houseNumber}, ${addressDetails.street}, ${addressDetails.areaLocality}${addressDetails.landmark ? `, Landmark: ${addressDetails.landmark}` : ''}, ${addressDetails.city}, ${addressDetails.state} - ${addressDetails.pincode}`;
+    
+    // Find matching locality in LOCALITY_DATA or keep locality
+    const matchedLocality = Object.keys(LOCALITY_DATA).find((loc) =>
+      loc.toLowerCase().includes(addressDetails.areaLocality.toLowerCase())
+    ) || 'City Centre, Gwalior';
+
+    setFormData((prev) => ({
+      ...prev,
+      address: fullAddr,
+      locality: matchedLocality,
+    }));
+  };
 
   // Real-time slot hold countdown timer
   useEffect(() => {
@@ -163,7 +182,7 @@ export const BookingCartDrawer: React.FC<BookingCartDrawerProps> = ({
   const priceAfterCombo = Math.max(0, rawSubtotal - comboDiscountVal);
 
   // Mandatory Charges
-  const transportCharge = 50; // Professional Transportation Cost (100% to beautician)
+  const transportCharge = 50; // Professional Transportation Cost
   const platformFeeAndTaxes = 99; // Platform Fee & Taxes (fixed)
 
   // Combined Amount before wallet / coupons
@@ -247,7 +266,7 @@ export const BookingCartDrawer: React.FC<BookingCartDrawerProps> = ({
 
     const waText = `Hello%20Swan%20Beauty%2C%20I%20want%20to%20confirm%20my%20Home%20Salon%20Booking%20in%20Gwalior%3A%0A%0A*ORDER%20SUMMARY*%3A%0A${itemsText}%0A%0A*BILLING%20BREAKDOWN*%3A%0AService%20Total%3A%20%E2%82%B9${rawSubtotal}%0A${
       comboDiscountVal > 0 ? `Combo%20Discount%20(${comboDiscountPct}\%20OFF)%3A%20-%E2%82%B9${comboDiscountVal}%0A` : ''
-    }Professional%20Transportation%20Cost%3A%20%E2%82%B950%20(100\%20to%20beautician)%0APlatform%20Fee%20%26%20Taxes%3A%20%E2%82%B999%0A${
+    }Professional%20Transportation%20Cost%3A%20%E2%82%B950%0APlatform%20Fee%20%26%20Taxes%3A%20%E2%82%B999%0A${
       walletDeducted > 0 ? `Wallet%20Discount%3A%20-%E2%82%B9${walletDeducted}%0A` : ''
     }${
       appliedCoupon ? `Coupon%20Discount%20(${appliedCoupon.code})%3A%20-%E2%82%B9${couponDiscountVal}%0A` : ''
@@ -259,8 +278,6 @@ export const BookingCartDrawer: React.FC<BookingCartDrawerProps> = ({
       formData.locality
     )}%0AAddress%3A%20${encodeURIComponent(
       formData.address
-    )}%0ADate%3A%20${encodeURIComponent(
-      formData.preferredDate
     )}%0ATime%20Slot%3A%20${encodeURIComponent(
       formData.preferredTime
     )}%0APayment%20Method%3A%20${paymentMethod === 'cash_on_visit' ? 'Pay%20After%20Service%20(Cash/UPI)' : 'Online%20UPI'}%0ANotes%3A%20${encodeURIComponent(
@@ -347,7 +364,7 @@ export const BookingCartDrawer: React.FC<BookingCartDrawerProps> = ({
                   : 'text-slate-600 hover:text-[#222222]'
               }`}
             >
-              <span>2. Schedule & Address</span>
+              <span>2. Doorstep Address</span>
             </button>
           </div>
         )}
@@ -632,17 +649,12 @@ export const BookingCartDrawer: React.FC<BookingCartDrawerProps> = ({
                 )}
 
                 {/* 3. Professional Transportation Cost – ₹50 */}
-                <div className="p-2.5 rounded-xl bg-sky-50/80 border border-sky-200 space-y-1">
-                  <div className="flex justify-between items-center text-[#1E3A5F] font-extrabold">
-                    <span className="flex items-center gap-1.5">
-                      <Navigation className="w-3.5 h-3.5 text-[#0284C7]" />
-                      Professional Transportation Cost
-                    </span>
-                    <span className="text-[#0284C7] text-sm">₹50</span>
-                  </div>
-                  <p className="text-[10px] text-slate-500 font-medium leading-tight">
-                    (100% of this amount goes to the beautician for travel expenses.)
-                  </p>
+                <div className="p-2.5 rounded-xl bg-sky-50/80 border border-sky-200 flex justify-between items-center text-[#1E3A5F] font-extrabold">
+                  <span className="flex items-center gap-1.5">
+                    <Navigation className="w-3.5 h-3.5 text-[#0284C7]" />
+                    Professional Transportation Cost
+                  </span>
+                  <span className="text-[#0284C7] text-sm">₹50</span>
                 </div>
 
                 {/* 4. Platform Fee & Taxes – ₹99 */}
@@ -756,36 +768,21 @@ export const BookingCartDrawer: React.FC<BookingCartDrawerProps> = ({
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[#222222] font-extrabold mb-1 uppercase tracking-wider text-[10px] flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-[#0284C7]" /> Locality in Gwalior *
-                  </label>
-                  <select
-                    value={formData.locality}
-                    onChange={(e) => setFormData({ ...formData, locality: e.target.value })}
-                    className="w-full bg-sky-50/50 border border-sky-200 rounded-xl px-2.5 py-2.5 text-[#222222] focus:outline-none focus:border-[#0284C7] font-semibold"
-                  >
-                    {Object.keys(LOCALITY_DATA).map((loc) => (
-                      <option key={loc} value={loc}>
-                        {loc.replace(', Gwalior', '')}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-[#222222] font-extrabold mb-1 uppercase tracking-wider text-[10px] flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-[#0284C7]" /> Preferred Date
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    value={formData.preferredDate}
-                    onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
-                    className="w-full bg-sky-50/50 border border-sky-200 rounded-xl px-2.5 py-2.5 text-[#222222] focus:outline-none focus:border-[#0284C7] font-semibold"
-                  />
-                </div>
+              <div>
+                <label className="block text-[#222222] font-extrabold mb-1 uppercase tracking-wider text-[10px] flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-[#0284C7]" /> Locality in Gwalior *
+                </label>
+                <select
+                  value={formData.locality}
+                  onChange={(e) => setFormData({ ...formData, locality: e.target.value })}
+                  className="w-full bg-sky-50/50 border border-sky-200 rounded-xl px-3 py-2.5 text-[#222222] focus:outline-none focus:border-[#0284C7] font-semibold"
+                >
+                  {Object.keys(LOCALITY_DATA).map((loc) => (
+                    <option key={loc} value={loc}>
+                      {loc.replace(', Gwalior', '')}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
@@ -805,6 +802,25 @@ export const BookingCartDrawer: React.FC<BookingCartDrawerProps> = ({
                   <option value="03:00 PM – 04:00 PM">03:00 PM – 04:00 PM</option>
                   <option value="04:00 PM – 05:00 PM">04:00 PM – 05:00 PM</option>
                 </select>
+              </div>
+
+              {/* GPS Auto-fill Location Action Card */}
+              <div className="p-3.5 rounded-2xl bg-gradient-to-r from-sky-100 via-sky-50 to-white border border-sky-300 flex items-center justify-between gap-3 shadow-sm">
+                <div>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#0284C7] bg-white px-2 py-0.5 rounded-full border border-sky-200 inline-block mb-1">
+                    Auto-Fill Doorstep Pin
+                  </span>
+                  <p className="font-extrabold text-[#1E3A5F] text-xs">Precise GPS Satellite Location</p>
+                  <p className="text-[10px] text-slate-500">Detect live position & fine-tune on map pin</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsGpsModalOpen(true)}
+                  className="px-3.5 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white font-extrabold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-sky-400/20 transition-all shrink-0 active:scale-95"
+                >
+                  <Navigation className="w-4 h-4 fill-current text-sky-200 animate-pulse" />
+                  <span>Use GPS</span>
+                </button>
               </div>
 
               <div>
@@ -897,6 +913,13 @@ export const BookingCartDrawer: React.FC<BookingCartDrawerProps> = ({
         )}
 
       </div>
+
+      {/* GPS Location Picker Modal */}
+      <AddressLocationPickerModal
+        isOpen={isGpsModalOpen}
+        onClose={() => setIsGpsModalOpen(false)}
+        onSaveAddress={handleSaveGpsAddress}
+      />
 
     </div>
   );

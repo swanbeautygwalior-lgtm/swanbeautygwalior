@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { LocationSelector } from './components/LocationSelector';
 import { Hero } from './components/Hero';
+import { PromotionalOffersBar } from './components/PromotionalOffersBar';
 import { CategoryCardsSection } from './components/CategoryCardsSection';
 import { ServiceHighlights } from './components/ServiceHighlights';
 import { WhyChooseUs } from './components/WhyChooseUs';
@@ -11,9 +12,10 @@ import { AreaChecker } from './components/AreaChecker';
 import { Reviews } from './components/Reviews';
 import { FAQSection } from './components/FAQSection';
 import { ContactSection } from './components/ContactSection';
-import { AppointmentBookingSection } from './components/AppointmentBookingSection';
 import { BookingCartDrawer } from './components/BookingCartDrawer';
 import { ReferAFriendModal } from './components/ReferAFriendModal';
+import { PolicyModal } from './components/PolicyModal';
+import { StickyMobileBookingBar } from './components/StickyMobileBookingBar';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { BackToTop } from './components/BackToTop';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
@@ -34,6 +36,7 @@ export default function App() {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isReferralOpen, setIsReferralOpen] = useState(false);
+  const [policyType, setPolicyType] = useState<'terms' | 'privacy' | 'refund' | 'hygiene' | null>(null);
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('All');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -113,11 +116,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-[#D4AF37]/30 selection:text-[#000000] relative">
+    <div className="min-h-screen bg-white text-[#1E3A5F] font-sans selection:bg-sky-200 selection:text-[#0284C7] relative pb-16 sm:pb-0">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-20 right-4 z-50 bg-black text-white rounded-xl px-4 py-3 border border-[#D4AF37]/50 text-xs uppercase tracking-wider font-bold flex items-center gap-2 shadow-2xl animate-in slide-in-from-right-5 duration-200">
+        <div className="fixed top-20 right-4 z-50 bg-[#1E3A5F] text-white rounded-xl px-4 py-3 border border-sky-300 text-xs uppercase tracking-wider font-bold flex items-center gap-2 shadow-2xl animate-in slide-in-from-right-5 duration-200">
           <Check className="w-4 h-4 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>
@@ -142,17 +145,11 @@ export default function App() {
         {/* Hero Banner */}
         <Hero />
 
+        {/* Promotional Offers & Coupons Horizontal Slider */}
+        <PromotionalOffersBar onApplyCoupon={() => setIsCartOpen(true)} />
+
         {/* Categories Visual Cards Section */}
         <CategoryCardsSection onSelectCategory={handleCategorySelect} />
-
-        {/* Dedicated Appointment Booking Experience */}
-        <AppointmentBookingSection
-          cart={cart}
-          onOpenCart={() => setIsCartOpen(true)}
-          onBookingConfirmed={(details) => {
-            showToast(`Slot reserved for ${details.date} at ${details.timeSlot}!`);
-          }}
-        />
 
         {/* Service Highlights & Featured Combos */}
         <ServiceHighlights
@@ -161,7 +158,7 @@ export default function App() {
           cart={cart}
         />
 
-        {/* Why Choose Us & Hygiene Pledge */}
+        {/* Why Choose Us & How It Works Compact Merged Section */}
         <WhyChooseUs />
 
         {/* Category-Wise Services Price Menu */}
@@ -183,12 +180,21 @@ export default function App() {
         {/* FAQ Accordion */}
         <FAQSection />
 
-        {/* Contact Section with Google Maps */}
+        {/* Contact Section */}
         <ContactSection />
       </main>
 
       {/* Footer */}
-      <Footer onOpenReferral={() => setIsReferralOpen(true)} />
+      <Footer
+        onOpenReferral={() => setIsReferralOpen(true)}
+        onOpenPolicy={(type) => setPolicyType(type)}
+      />
+
+      {/* Sticky Bottom Booking Bar for Mobile Conversion */}
+      <StickyMobileBookingBar
+        cart={cart}
+        onOpenCart={() => setIsCartOpen(true)}
+      />
 
       {/* Appointment Cart Drawer */}
       <BookingCartDrawer
@@ -210,6 +216,14 @@ export default function App() {
           setIsCartOpen(true);
         }}
       />
+
+      {/* Policy Terms & Privacy Modal */}
+      {policyType && (
+        <PolicyModal
+          type={policyType}
+          onClose={() => setPolicyType(null)}
+        />
+      )}
 
       {/* Floating Action Buttons */}
       <FloatingWhatsApp />

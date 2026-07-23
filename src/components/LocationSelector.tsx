@@ -59,9 +59,16 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onLocationCh
     }
   };
 
-  const handleDetectLocation = () => {
+  const handleDetectLocation = (isRetry = false) => {
     setIsLocating(true);
     setLocationStatusMessage('Requesting GPS location...');
+
+    const isSecure = window.isSecureContext || window.location.protocol === 'https:' || window.location.hostname === 'localhost';
+    if (!isSecure) {
+      setLocationStatusMessage('⚠️ HTTPS is required for automatic GPS detection. Please select your area manually below.');
+      setIsLocating(false);
+      return;
+    }
 
     if (!('geolocation' in navigator)) {
       setLocationStatusMessage('Geolocation is not supported by your browser.');
@@ -69,24 +76,39 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onLocationCh
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        setLocationStatusMessage('Converting coordinates into address...');
-        await reverseGeocode(latitude, longitude);
-        setIsLocating(false);
-      },
-      (error) => {
-        console.warn('Geolocation error:', error);
+    const highOptions: PositionOptions = { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 };
+    const lowOptions: PositionOptions = { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 };
+
+    const handleSuccess = async (position: GeolocationPosition) => {
+      const { latitude, longitude } = position.coords;
+      setLocationStatusMessage('Converting coordinates into address...');
+      await reverseGeocode(latitude, longitude);
+      setIsLocating(false);
+    };
+
+    const handleError = (error: GeolocationPositionError) => {
+      console.warn('Geolocation error:', error);
+      if (error.code === error.TIMEOUT && !isRetry) {
+        // Fallback to low accuracy for mobile browsers / indoor
+        navigator.geolocation.getCurrentPosition(
+          handleSuccess,
+          () => {
+            setIsLocating(false);
+            setLocationStatusMessage('GPS request timed out. Please select your area manually below.');
+          },
+          lowOptions
+        );
+      } else {
         setIsLocating(false);
         if (error.code === error.PERMISSION_DENIED) {
-          setLocationStatusMessage('Location permission was denied. Please select your area manually below.');
+          setLocationStatusMessage('Location permission denied. Please allow location permissions in browser settings or select area manually below.');
         } else {
-          setLocationStatusMessage('Could not detect exact GPS position. Please select your area below.');
+          setLocationStatusMessage('Could not detect exact GPS position. Please select your area manually below.');
         }
-      },
-      { timeout: 10000, enableHighAccuracy: true }
-    );
+      }
+    };
+
+    navigator.geolocation.getCurrentPosition(handleSuccess, handleError, highOptions);
   };
 
   const reverseGeocode = async (lat: number, lon: number) => {

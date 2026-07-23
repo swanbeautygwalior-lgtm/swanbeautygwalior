@@ -27,7 +27,6 @@ export const Navbar: React.FC<NavbarProps> = ({ cart, onOpenCart, onOpenReferral
     { label: 'Home', href: '#home' },
     { label: 'Categories', href: '#categories' },
     { label: 'Services', href: '#services' },
-    { label: 'Book Slot', href: '#booking' },
     { label: 'Packages', href: '#packages' },
     { label: 'Why Us', href: '#why-us' },
     { label: 'Reviews', href: '#reviews' },

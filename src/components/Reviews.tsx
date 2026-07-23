@@ -4,11 +4,14 @@ import { REVIEWS_DATA } from '../data/reviews';
 
 export const Reviews: React.FC = () => {
   const [reviewList, setReviewList] = useState(REVIEWS_DATA);
+  const [showAllReviews, setShowAllReviews] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newName, setNewName] = useState('');
   const [newLocation, setNewLocation] = useState('');
   const [newComment, setNewComment] = useState('');
   const [newRating, setNewRating] = useState(5);
+
+  const displayedReviews = showAllReviews ? reviewList : reviewList.slice(0, 3);
 
   const handleAddReview = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,57 +36,54 @@ export const Reviews: React.FC = () => {
   };
 
   return (
-    <section id="reviews" className="py-20 bg-gradient-to-b from-sky-50/50 via-white to-sky-100/40 relative border-t border-sky-100">
+    <section id="reviews" className="py-8 sm:py-10 bg-gradient-to-b from-sky-50/50 via-white to-sky-100/40 relative border-t border-sky-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-sky-100 border border-sky-300 text-[#0284C7] text-[10px] font-extrabold uppercase tracking-[0.3em] shadow-sm">
+        <div className="text-center max-w-2xl mx-auto space-y-2 mb-6">
+          <span className="inline-block px-3 py-0.5 rounded-full bg-sky-100 border border-sky-300 text-[#0284C7] text-[10px] font-extrabold uppercase tracking-[0.25em] shadow-xs">
             Client Testimonials
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1E3A5F] uppercase tracking-wider">
+          <h2 className="font-serif text-2xl sm:text-3xl font-extrabold text-[#1E3A5F]">
             Loved By Women Across <span className="text-[#0284C7] italic font-normal">Gwalior</span>
           </h2>
-          <p className="text-slate-600 text-xs sm:text-sm font-normal">
-            Real feedback from verified home salon appointments in City Centre, Morar, Lashkar & Thatipur.
-          </p>
 
-          <div className="flex items-center justify-center gap-2 pt-2">
+          <div className="flex items-center justify-center gap-2 pt-1">
             <div className="flex items-center text-amber-400">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+                <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
               ))}
             </div>
-            <span className="font-serif text-xl font-extrabold text-[#1E3A5F]">4.9 / 5.0</span>
-            <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">(250+ Happy Women Clients)</span>
+            <span className="font-serif text-base font-extrabold text-[#1E3A5F]">4.9 / 5.0</span>
+            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">(250+ Verified Reviews)</span>
           </div>
         </div>
 
         {/* Reviews Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {reviewList.map((rev) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          {displayedReviews.map((rev) => (
             <div
               key={rev.id}
-              className="bg-white rounded-[20px] p-6 border border-sky-100 shadow-[0_10px_30px_rgba(2,132,199,0.05)] hover:shadow-[0_20px_40px_rgba(2,132,199,0.12)] hover:border-[#0284C7] transition-all duration-300 relative flex flex-col justify-between"
+              className="bg-white rounded-2xl p-4 border border-sky-100 shadow-xs hover:border-[#0284C7] transition-all duration-300 relative flex flex-col justify-between"
             >
-              <Quote className="w-8 h-8 text-[#0284C7]/15 absolute top-4 right-4" />
+              <Quote className="w-6 h-6 text-[#0284C7]/15 absolute top-3 right-3" />
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <div className="flex items-center gap-1 text-amber-400">
                   {[...Array(rev.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
 
-                <p className="text-xs text-slate-700 leading-relaxed font-normal italic">
+                <p className="text-xs text-slate-700 leading-relaxed font-normal italic line-clamp-4">
                   "{rev.comment}"
                 </p>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-sky-100 space-y-2">
+              <div className="pt-3 mt-3 border-t border-sky-100 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="font-extrabold text-xs text-[#1E3A5F] uppercase tracking-wider flex items-center gap-1.5">
+                    <h4 className="font-extrabold text-xs text-[#1E3A5F] flex items-center gap-1">
                       <span>{rev.name}</span>
                       {rev.verified && (
                         <CheckCircle2 className="w-3.5 h-3.5 text-[#0284C7]" title="Verified Client" />
@@ -94,9 +94,9 @@ export const Reviews: React.FC = () => {
                 </div>
 
                 {rev.servicesUsed && rev.servicesUsed.length > 0 && (
-                  <div className="flex flex-wrap gap-1 pt-1">
+                  <div className="flex flex-wrap gap-1">
                     {rev.servicesUsed.map((srv, i) => (
-                      <span key={i} className="text-[9px] px-2 py-0.5 bg-sky-50 text-[#0284C7] border border-sky-200 font-extrabold uppercase tracking-wider rounded-md">
+                      <span key={i} className="text-[8px] px-1.5 py-0.5 bg-sky-50 text-[#0284C7] border border-sky-200 font-extrabold uppercase tracking-wider rounded-md">
                         {srv}
                       </span>
                     ))}
@@ -107,13 +107,22 @@ export const Reviews: React.FC = () => {
           ))}
         </div>
 
-        {/* Add Review Action */}
-        <div className="text-center">
+        {/* View More Reviews / Add Review Actions */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {!showAllReviews && reviewList.length > 3 && (
+            <button
+              onClick={() => setShowAllReviews(true)}
+              className="px-5 py-2.5 bg-white border border-sky-300 text-[#0284C7] hover:bg-sky-50 text-xs font-extrabold uppercase tracking-wider rounded-xl transition-all shadow-xs"
+            >
+              View More Reviews ({reviewList.length - 3})
+            </button>
+          )}
+
           <button
             onClick={() => setShowAddModal(true)}
-            className="px-6 py-3 bg-[#0284C7] text-white text-xs font-extrabold uppercase tracking-widest rounded-xl hover:bg-[#0369A1] transition-all shadow-md inline-flex items-center gap-2"
+            className="px-5 py-2.5 bg-[#0284C7] text-white text-xs font-extrabold uppercase tracking-wider rounded-xl hover:bg-[#0369A1] transition-all shadow-sm inline-flex items-center gap-1.5"
           >
-            <MessageSquare className="w-4 h-4 text-sky-200" />
+            <MessageSquare className="w-3.5 h-3.5 text-sky-200" />
             <span>Leave A Review</span>
           </button>
         </div>

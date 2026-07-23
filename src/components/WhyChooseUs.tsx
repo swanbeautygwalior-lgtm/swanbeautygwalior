@@ -1,110 +1,159 @@
 import React from 'react';
-import { ShieldCheck, Sparkles, Clock, Award, CheckCircle2, HeartHandshake } from 'lucide-react';
+import { ShieldCheck, Sparkles, Clock, Award, CheckCircle2, HeartHandshake, Calendar, Sparkle, UserCheck } from 'lucide-react';
 
 export const WhyChooseUs: React.FC = () => {
   const reasons = [
     {
       icon: ShieldCheck,
-      title: '100% Certified Female Staff',
-      description: 'Your safety is paramount. Every beautician is background-verified, trained, and courteous.'
+      title: '100% Female Staff',
+      description: 'Background-verified, certified female beauticians only.'
     },
     {
       icon: Sparkles,
       title: 'Sealed Mono-Dose Kits',
-      description: 'Zero contamination. We use single-use disposable bedsheets, spatulas, and fresh sealed kits.'
+      description: 'Fresh disposable bedsheets, spatulas & sealed packs.'
     },
     {
       icon: Award,
-      title: 'Genuine Rica & O3+ Products',
-      description: 'Only authentic premium brands like Rica Italy, O3+, Casmara, and Korean formulations.'
+      title: 'Genuine Rica & O3+',
+      description: 'Authentic Rica Italy, O3+ & Korean formulations.'
     },
     {
       icon: Clock,
       title: 'Prompt On-Time Service',
-      description: 'No waiting in parlor queues! Our beauticians reach your Gwalior home at your chosen time slot.'
+      description: 'Zero queue waiting; beautician arrives at chosen slot.'
     },
     {
       icon: CheckCircle2,
-      title: 'Transparent Pricing Menu',
-      description: 'Exact price list as displayed on website. No surprise add-ons, travel fees, or taxes.'
+      title: 'Transparent Pricing',
+      description: 'Zero hidden travel charges or unexpected taxes.'
     },
     {
       icon: HeartHandshake,
-      title: 'Hassle-Free Home Setup',
-      description: 'We bring our portable massage tables, wax heaters, and clean up completely afterwards.'
+      title: 'Hassle-Free Cleanup',
+      description: 'We bring portable equipment and leave no mess.'
+    }
+  ];
+
+  const howItWorksSteps = [
+    {
+      step: '01',
+      title: 'Select Services & Slot',
+      desc: 'Pick your preferred beauty treatments & convenient time in Gwalior.'
+    },
+    {
+      step: '02',
+      title: 'Female Beautician Arrives',
+      desc: 'Sanitized professional arrives with sealed disposable kits & tools.'
+    },
+    {
+      step: '03',
+      title: 'Relax & Pay Post-Service',
+      desc: 'Enjoy 5-star salon pampering at home & pay via UPI/Cash afterwards.'
     }
   ];
 
   return (
-    <section id="why-us" className="py-20 bg-white relative overflow-hidden border-t border-gray-100">
+    <section id="why-us" className="py-8 sm:py-10 bg-gradient-to-b from-white via-sky-50/40 to-white relative overflow-hidden border-t border-sky-100">
       
       {/* Background Accent */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-sky-200/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
         
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-[#FAF8F5] border border-[#D4AF37]/40 text-[#D4AF37] text-[10px] font-bold uppercase tracking-[0.3em]">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto space-y-1.5">
+          <span className="inline-block px-3 py-0.5 rounded-full bg-sky-100 border border-sky-300 text-[#0284C7] text-[10px] font-extrabold uppercase tracking-[0.25em]">
             The Swan Beauty Standard
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-black">
-            Why Choose Our <br />
-            <span className="text-[#D4AF37] italic font-normal">Women-Only Home Salon</span>
+          <h2 className="font-serif text-2xl sm:text-3xl font-extrabold text-[#1E3A5F]">
+            Why Choose Us & <span className="text-[#0284C7] italic font-normal">How It Works</span>
           </h2>
-          <p className="text-gray-600 text-xs sm:text-sm font-normal">
-            We bring the luxury, hygiene, and expertise of a 5-star salon directly into your living room.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {reasons.map((item, idx) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={idx}
-                className="bg-white rounded-[20px] p-7 border border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.04)] hover:border-[#D4AF37] hover:shadow-[0_20px_40px_rgba(212,175,55,0.12)] transition-all duration-300 hover:-translate-y-1 space-y-4 group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-[#FAF8F5] border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-black transition-colors">
-                  <Icon className="w-6 h-6" />
-                </div>
-                <h3 className="font-serif text-lg font-bold text-black group-hover:text-[#D4AF37] transition-colors uppercase tracking-wider">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-sm leading-relaxed font-light">
-                  {item.description}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Hygiene Guarantee Banner */}
-        <div className="mt-16 rounded-[22px] p-8 bg-[#FAF8F5] border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
-          <div className="space-y-2 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-2 text-[#D4AF37] text-[10px] font-bold uppercase tracking-[0.2em]">
-              <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
-              <span>Safety & Hygiene Guarantee</span>
-            </div>
-            <h3 className="font-serif text-2xl font-bold text-black uppercase tracking-wider">
-              Cleanliness You Can Trust At Home
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          {/* Left Column: Why Choose Us Compact Grid (6 items in 2x3) */}
+          <div className="lg:col-span-7 space-y-3">
+            <h3 className="font-serif text-sm font-extrabold text-[#1E3A5F] uppercase tracking-wider flex items-center gap-1.5 border-b border-sky-100 pb-2">
+              <ShieldCheck className="w-4 h-4 text-[#0284C7]" />
+              <span>Why Gwalior Prefers Swan Beauty</span>
             </h3>
-            <p className="text-gray-600 text-xs sm:text-sm max-w-2xl font-light">
-              All tools are sanitized with hospital-grade disinfectant. Disposable aprons, bedsheets, headbands & gloves ensure 100% infection-free care.
-            </p>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {reasons.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="bg-white rounded-xl p-3 border border-sky-100 shadow-sm hover:border-[#0284C7] transition-all space-y-1.5"
+                  >
+                    <div className="w-7 h-7 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-center text-[#0284C7]">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <h4 className="font-extrabold text-xs text-[#1E3A5F]">
+                      {item.title}
+                    </h4>
+                    <p className="text-[10px] text-slate-500 font-normal leading-snug">
+                      {item.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
-          <a
-            href="https://wa.me/918349729518?text=Hello%20Swan%20Beauty%2C%20I%20have%20a%20question%20about%20your%20home%20salon%20services."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-7 py-3.5 bg-black text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shrink-0 shadow-md hover:bg-[#D4AF37] hover:text-black transition-all duration-300"
-          >
-            Chat On WhatsApp
-          </a>
+          {/* Right Column: 3-Step How It Works Stack */}
+          <div className="lg:col-span-5 space-y-3">
+            <h3 className="font-serif text-sm font-extrabold text-[#1E3A5F] uppercase tracking-wider flex items-center gap-1.5 border-b border-sky-100 pb-2">
+              <Calendar className="w-4 h-4 text-[#0284C7]" />
+              <span>3 Simple Booking Steps</span>
+            </h3>
+
+            <div className="space-y-2.5">
+              {howItWorksSteps.map((s) => (
+                <div
+                  key={s.step}
+                  className="bg-white rounded-xl p-3 border border-sky-100 shadow-sm flex items-start gap-3 hover:border-[#0284C7] transition-all"
+                >
+                  <span className="w-8 h-8 rounded-lg bg-[#0284C7] text-white font-extrabold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                    {s.step}
+                  </span>
+                  <div>
+                    <h4 className="font-extrabold text-xs text-[#1E3A5F]">
+                      {s.title}
+                    </h4>
+                    <p className="text-[10px] text-slate-500 font-normal leading-snug mt-0.5">
+                      {s.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Compact Guarantee Banner */}
+            <div className="p-3 rounded-xl bg-sky-100/70 border border-sky-200 flex items-center justify-between gap-2 shadow-xs">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-[#0284C7] shrink-0" />
+                <span className="text-[10px] font-extrabold uppercase text-[#1E3A5F] tracking-wider">
+                  100% Sealed Single-Use Hygiene Guarantee
+                </span>
+              </div>
+              <a
+                href="#booking"
+                className="px-3 py-1.5 bg-[#0284C7] text-white text-[10px] font-extrabold uppercase tracking-wider rounded-lg hover:bg-[#0369A1] shrink-0"
+              >
+                Book Now
+              </a>
+            </div>
+
+          </div>
+
         </div>
 
       </div>
     </section>
   );
 };
+
 
