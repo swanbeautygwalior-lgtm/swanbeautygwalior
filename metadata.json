@@ -1,0 +1,6 @@
+{
+  "name": "Swan Beauty Home Salon Services",
+  "description": "Luxury women-only home salon services in Gwalior, Madhya Pradesh, India. Professional beauty and spa care delivered to your doorstep.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
